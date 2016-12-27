@@ -17,6 +17,9 @@ git add *.*
 
 git commit -m "xxxx"
 
+git commit -am "xxxx"
+#### This will stage the files automatically.
+
 git push origin master
 
 git pull origin master
