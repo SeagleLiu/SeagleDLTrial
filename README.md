@@ -33,3 +33,5 @@ pip install tensorflow
 Trial1.py: basics of tensorflow
 
 trial2.py: basics of spark in python.
+
+DL_C1: udacity DL course 1, logistic regression with python.
