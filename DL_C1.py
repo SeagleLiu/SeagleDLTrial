@@ -29,3 +29,12 @@ scores = np.array([[1, 2, 3, 6],
 tl = softmax(scores)
 print(tl)
 np.sum(tl, axis=0)
+
+#%%
+a = 1000000000
+s = 0.000001
+
+for i in range(0, 10000):
+    a +=s
+
+a - 1000000000

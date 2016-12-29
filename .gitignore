@@ -17,3 +17,8 @@ bin/
 *.snm
 *.out
 *.spyproject
+*.tar
+*.tar.gz
+notMNIST_large/
+notMNIST_small/
+*.pickle
