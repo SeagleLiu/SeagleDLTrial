@@ -89,6 +89,23 @@ train_folders = maybe_extract(train_filename)
 test_folders = maybe_extract(test_filename)
 
 #%% Display image
+# This section is very slow.
+import random
+import hashlib
+
+def disp_samples(data_folders, sample_size):
+  for folder in data_folders:
+    print(folder)
+    image_files = os.listdir(folder)
+    image_sample = random.sample(image_files, sample_size)
+    for image in image_sample:
+      image_file = os.path.join(folder, image)
+      i = Image(filename=image_file)
+      display(i)
+
+disp_samples(train_folders, 1)
+
+#%%      
 display(Image(filename="notMNIST_small/A/Q0NXaWxkV29yZHMtQm9sZEl0YWxpYy50dGY=.png"))
 
 display(Image(filename="notMNIST_small/C/QmVlc2tuZWVzQy5vdGY=.png"))
@@ -166,14 +183,47 @@ with open(pickle_file, 'rb') as f:
     sample_image = letter_set[sample_idx, :, :]  # extract a 2D slice
     plt.figure()
     plt.imshow(sample_image)  # display it
+#%% A new section on display images
+def disp_8_img(imgs, titles):
+  """Display subplot with 8 images or less"""
+  for i, img in enumerate(imgs):
+    plt.subplot(2, 4, i+1)
+    plt.title(titles[i])
+    plt.axis('off')
+    plt.imshow(img)
 
-#%% Verify the data is balanced across all cases.
-
-for letter in train_datasets:
-    letter_file = open(letter, "rb")
-    letter_set = pickle.load(letter_file)
-    print(len(letter_set))
+def disp_sample_pickles(data_folders):
+  folder = random.sample(data_folders, 1)
+  pickle_filename = ''.join(folder) + '.pickle'
+  try:
+    with open(pickle_filename, 'rb') as f:
+      dataset = pickle.load(f)
+  except Exception as e:
+    print('Unable to read data from', pickle_filename, ':', e)
+    return
+  # display
+  plt.suptitle(''.join(folder)[-1])
+  for i, img in enumerate(random.sample(list(dataset), 8)):
+    plt.subplot(2, 4, i+1)
+    plt.axis('off')
+    plt.imshow(img)
     
+disp_sample_pickles(train_folders)
+disp_sample_pickles(test_folders)
+#%% Verify the data is balanced across all cases.
+def disp_number_images(data_folders):
+  for folder in data_folders:
+    pickle_filename = ''.join(folder) + '.pickle'
+    try:
+      with open(pickle_filename, 'rb') as f:
+        dataset = pickle.load(f)
+    except Exception as e:
+      print('Unable to read data from', pickle_filename, ':', e)
+      return
+    print('Number of images in ', folder, ' : ', len(dataset))
+    
+disp_number_images(train_folders)
+disp_number_images(test_folders)
 #%%
 def make_arrays(nb_rows, img_size):
   if nb_rows:
