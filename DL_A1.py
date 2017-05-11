@@ -47,7 +47,8 @@ def maybe_download(filename, expected_bytes, force=False):
   """Download a file if not present, and make sure it's the right size."""
   if force or not os.path.exists(filename):
     print('Attempting to download:', filename) 
-    filename, _ = urlretrieve(url + filename, filename, reporthook=download_progress_hook)
+    filename, _ = urlretrieve(url + filename, filename, 
+                              reporthook=download_progress_hook)
     print('\nDownload Complete!')
   statinfo = os.stat(filename)
   if statinfo.st_size == expected_bytes:
@@ -297,14 +298,23 @@ print('Training:', train_dataset.shape, train_labels.shape)
 print('Validation:', valid_dataset.shape, valid_labels.shape)
 print('Testing:', test_dataset.shape, test_labels.shape)  
 
-unique, counts = np.unique(train_labels, return_counts=True)
-dict(zip(unique, counts))
 
-unique, counts = np.unique(test_labels, return_counts=True)
-dict(zip(unique, counts))
-
-unique, counts = np.unique(valid_labels, return_counts=True)
-dict(zip(unique, counts))
+pretty_labels = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 
+                 7: 'H', 8: 'I', 9: 'J'}
+                 
+                 
+np.random.seed(100)
+def disp_sample_dataset(dataset, labels):
+  items = random.sample(range(len(labels)), 8)
+  for i, item in enumerate(items):
+    plt.subplot(2, 4, i+1)
+    plt.axis('off')
+    plt.title(pretty_labels[labels[item]])
+    plt.imshow(dataset[item])
+    
+disp_sample_dataset(train_dataset, train_labels)
+disp_sample_dataset(test_dataset, test_labels)
+disp_sample_dataset(valid_dataset, valid_labels)
 
 #%%
 pickle_file = 'notMNIST.pickle'
@@ -328,3 +338,20 @@ except Exception as e:
 #%%
 statinfo = os.stat(pickle_file)
 print('Compressed pickle size:', statinfo.st_size)
+
+#%% Problem 6 Try logistic regression
+train_size= 50
+X_data = train_dataset[:train_size].reshape(train_size, 784)
+Y_data = train_labels[:train_size]
+lgr =LogisticRegression()
+lgr.fit(X_data, Y_data)
+
+#%%
+test_size = 20
+X_test = test_dataset[:test_size].reshape(test_size, 784)
+print(lgr.score(X_test, test_labels[:test_size]))
+
+#%%
+import sklearn.metrics
+X_test_pred = lgr.predict(X_test)
+sklearn.metrics.confusion_matrix(test_labels[:test_size], X_test_pred)
