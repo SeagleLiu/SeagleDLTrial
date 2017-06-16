@@ -23,7 +23,8 @@ from matplotlib import pylab
 from six.moves import range
 from six.moves.urllib.request import urlretrieve
 from sklearn.manifold import TSNE
-os.chdir("C:/SeagleDLTrial")
+
+#os.chdir("C:/SeagleDLTrial")
 #%%
 url = 'http://mattmahoney.net/dc/'
 

@@ -7,7 +7,7 @@ Created on Tue May 16 12:30:50 2017
 
 """
 import os
-os.chdir("C:/SeagleDLTrial")
+os.chdir("E:/SeagleDLTrial")
 from __future__ import print_function
 import numpy as np
 import tensorflow as tf

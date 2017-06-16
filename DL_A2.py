@@ -6,6 +6,9 @@ Created on Mon May 15 14:18:10 2017
 """
 import os
 os.chdir("C:/SeagleDLTrial")
+#%% local version.
+os.chdir("E:/SeagleDLTrial")
+
 #%%
 # These are all the modules we'll be using later. Make sure you can import them
 # before proceeding further.
